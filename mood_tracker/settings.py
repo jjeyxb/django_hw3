@@ -74,13 +74,26 @@ WSGI_APPLICATION = 'mood_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mood_db',        # 資料庫的名稱
+        'USER': 'root',           # MySQL 的帳號
+        'PASSWORD': 'root',       # MySQL 的密碼
+        'HOST': 'db',             # 這是關鍵！在 Docker 裡面，資料庫的網址就是服務名稱 'db'
+        'PORT': '3306',           # MySQL 的預設通訊埠
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4', # 支援 Emoji (心情圖示) 的編碼
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
