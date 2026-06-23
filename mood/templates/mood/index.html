@@ -1,0 +1,53 @@
+{% extends 'mood/base.html' %}
+{% block content %}
+<div class="row mb-3 align-items-center">
+    <div class="col">
+        <h3 class="fw-bold text-dark"><i class="bi bi-journal-text text-primary"></i> 我的心情日記</h3>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4 py-3">紀錄時間</th>
+                        <th>今日心情</th>
+                        <th>備註與原因</th>
+                        <th class="text-end pe-4">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td class="ps-4 text-muted"><i class="bi bi-clock"></i> {{ record.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if record.mood == 'happy' %}<span class="badge bg-warning text-dark rounded-pill px-3 py-2 fs-6 shadow-sm">開心 😄</span>
+                            {% elif record.mood == 'calm' %}<span class="badge bg-secondary rounded-pill px-3 py-2 fs-6 shadow-sm">平靜 😐</span>
+                            {% elif record.mood == 'anxious' %}<span class="badge rounded-pill px-3 py-2 fs-6 shadow-sm" style="background-color: #6f42c1;">焦慮 😰</span>
+                            {% elif record.mood == 'sad' %}<span class="badge bg-info text-dark rounded-pill px-3 py-2 fs-6 shadow-sm">低落 😢</span>
+                            {% elif record.mood == 'angry' %}<span class="badge bg-danger rounded-pill px-3 py-2 fs-6 shadow-sm">生氣 😡</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ record.reason|default:"<span class='text-black-50 fst-italic'>無備註</span>" }}</td>
+                        <td class="text-end pe-4">
+                            <a href="{% url 'delete_mood' record.id %}" class="btn btn-outline-danger btn-sm rounded-pill" onclick="return confirm('確定要刪除這筆紀錄嗎？');">
+                                <i class="bi bi-trash3-fill"></i> 刪除
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox fs-1 d-block mb-3 text-black-50"></i>
+                            目前還沒有任何心情紀錄喔！趕快點擊右上角新增一筆吧！
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

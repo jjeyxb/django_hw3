@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心情小幫手 V3</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* 稍微加一點微調，讓背景帶點淡淡的灰色，凸顯卡片的立體感 */
+        body { background-color: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="{% url 'index' %}">
+                <i class="bi bi-star-fill text-warning"></i> 心情小幫手 V3
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item me-4 text-light">
+                            <i class="bi bi-person-circle"></i> 歡迎，<span class="fw-bold">{{ user.username }}</span>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'statistics' %}"><i class="bi bi-pie-chart-fill"></i> 圖表統計</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'add_mood' %}"><i class="bi bi-plus-circle-fill"></i> 新增心情</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/api/moods/" target="_blank"><i class="bi bi-braces"></i> API</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm ms-2 fw-bold" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> 登出</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">登入</a></li>
+                        <li class="nav-item"><a class="btn btn-warning text-dark btn-sm ms-2 fw-bold shadow-sm" href="{% url 'register' %}">免費註冊</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mb-5">
+        {% block content %}{% endblock content %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
